@@ -440,9 +440,16 @@ client.on('message', async message => {
 
     message.channel.send(embed)
   }else if(message.content == '!초대코드') {
+
     message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
       .then(invite => {
-        message.channel.send(invite.url)
+		let embed = new Discord.RichEmbed()
+			.setAuthor(`초대링크`)
+			.setColor('#186de6')
+			.addField(invite.url)
+			.setTimestamp()
+			.setFooter('Developed by 월울프_')
+        message.channel.send(embed)
       });
   }else if(message.content == '!fy') {
     message.channel.send('fuck you bitch')
@@ -470,10 +477,17 @@ client.on('message', async message => {
   if(message.content.startsWith('!dm')) {
     if(checkPermission(message)) return
     if(message.member != null) { // 채널에서 공지 쓸 때
-      let contents = message.content.slice('!dm'.length);
-      message.member.guild.members.array().forEach(x => {
+		let contents = message.content.slice('!dm'.length);
+	  	let embed = new Discord.RichEmbed()
+			.setAuthor(`전체공지 from <@${message.author.id}>`)
+        	.setColor('#186de6')
+        	.setTimestamp()
+			.setFooter('Developed by 월울프_')
+		embed.addField(contents)
+
+	  message.member.guild.members.array().forEach(x => {
         if(x.user.bot) return;
-        x.user.send(`<@${message.author.id}> ${contents}`);
+        x.user.send(embed);
       });
   
       return message.reply('공지를 전송했습니다.');
