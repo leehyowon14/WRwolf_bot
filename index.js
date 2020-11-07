@@ -425,7 +425,6 @@ client.on('message', async message => {
   if(message.content == 'w_help') {
 	let embed = new Discord.RichEmbed()
 	  .setTitle('울프봇 명령어')
-      .setThumbnail(img)
       .addBlankField()
 	  .addField('이쉬/이쒸', '이쒸')
 	  .addField('!청소 (숫자)', '메세지 삭제하기')
