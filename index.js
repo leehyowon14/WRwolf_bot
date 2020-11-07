@@ -234,11 +234,11 @@ client.on('ready', async () => {
 
 client.on('messageDelete', async message => {
 	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 삭제하셨습니다.`)
-  })
+});
 
-  client.on('messageUpdate', async message => {
+client.on('messageUpdate', async message => {
 	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 수정하셨습니다.`)
-  }) 
+});
 
 client.on('message', message => {
 	if(message.content) {
