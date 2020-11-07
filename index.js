@@ -425,7 +425,7 @@ client.on('message', async message => {
   if(message.content == 'w_help') {
 	let embed = new Discord.RichEmbed()
 	  .setTitle('울프봇 명령어')
-	  .color(0x82CAFA)
+	  .setColor(0x82CAFA)
       .setThumbnail(img)
       .addBlankField()
 	  .addField('이쉬/이쒸', '이쒸')
