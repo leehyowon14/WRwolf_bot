@@ -232,6 +232,14 @@ client.on('ready', async () => {
   client.user.setPresence({ game: { name: '명령어:w_help' }, status: 'online' })
 });
 
+client.on('messageDelete', async message => {
+	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 삭제하셨습니다.`)
+  })
+
+  client.on('messageUpdate', async message => {
+	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 수정하셨습니다.`)
+  }) 
+
 client.on('message', message => {
 	if(message.content) {
 		// Array with: anything in brackets, anything in quotes, anything separated by spaces (in that hierarchy)
@@ -421,9 +429,9 @@ client.on('message', async message => {
   }
 
   if(message.content == 'w_help') {
-    let img = 'https://cdn.discordapp.com/attachments/758956116917878797/772431930226507776/1_11.png';
-    let embed = new Discord.RichEmbed()
-      .setTitle('울프봇 명령어')
+	let embed = new Discord.RichEmbed()
+	  .setTitle('울프봇 명령어')
+	  .color(0x82CAFA)
       .setThumbnail(img)
       .addBlankField()
 	  .addField('이쉬/이쒸', '이쒸')
