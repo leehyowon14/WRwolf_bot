@@ -11,6 +11,8 @@ const defaults = {
 };
 var pollIndex = 0, polls = new Map();
 
+var MD = 1;
+
 // The corresponding emojis are used as unique keys for choices within each poll object
 const emoji = {
 	numbers: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
@@ -233,11 +235,16 @@ client.on('ready', async () => {
 });
 
 client.on('messageDelete', async message => {
-	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 삭제하셨습니다.`)
+	if(MD == 1) {
+		message.channel.send(`<@!${message.author.id}> 님의 메세지 \`${message.content}\` 가 삭제되었습니다.`)
+	}
 });
 
 client.on('messageUpdate', async message => {
-	message.channel.send(`<@!${message.author.id}> 님이 \`${message.content}\` 을(를) 수정하셨습니다.`)
+	if(MD == 1) {
+		message.channel.send(`<@!${message.author.id}> 님의 메세지 \`${message.content}\` 가 수정되었습니다.`)
+	}
+	
 });
 
 client.on('message', message => {
@@ -473,6 +480,17 @@ client.on('message', async message => {
     
   }else if(message.content == '희준아') {
     message.channel.send('돈줘라')
+  }else if(message.contect == '!?LHW') {
+	  if(MD == 1) {
+		  var MD = 0;
+		  message.channel.bulkDelete(parseInt(1))
+		  AutoMsgDelete(message, "false");
+		
+	  }else if(MD == 0) {
+		  var MD = 1;
+		  message.channel.bulkDelete(parseInt(1))
+		  AutoMsgDelete(message, "true");
+	  }
   }
 
   if(message.content.startsWith('!dm')) {
