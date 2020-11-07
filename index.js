@@ -234,19 +234,6 @@ client.on('ready', async () => {
   client.user.setPresence({ game: { name: '명령어:w_help' }, status: 'online' })
 });
 
-client.on('messageDelete', async message => {
-	if(MD == 1) {
-		message.channel.send(`<@!${message.author.id}> 님의 메세지 \`${message.content}\` 가 삭제되었습니다.`)
-	}
-});
-
-client.on('messageUpdate', async message => {
-	if(MD == 1) {
-		message.channel.send(`<@!${message.author.id}> 님의 메세지 \`${message.content}\` 가 수정되었습니다.`)
-	}
-	
-});
-
 client.on('message', message => {
 	if(message.content) {
 		// Array with: anything in brackets, anything in quotes, anything separated by spaces (in that hierarchy)
@@ -480,17 +467,6 @@ client.on('message', async message => {
     
   }else if(message.content == '희준아') {
     message.channel.send('돈줘라')
-  }else if(message.contect == '!?LHW') {
-	  if(MD == 1) {
-		  var MD = 0;
-		  message.channel.bulkDelete(parseInt(1))
-		  AutoMsgDelete(message, "false");
-		
-	  }else if(MD == 0) {
-		  var MD = 1;
-		  message.channel.bulkDelete(parseInt(1))
-		  AutoMsgDelete(message, "true");
-	  }
   }
 
   if(message.content.startsWith('!dm')) {
