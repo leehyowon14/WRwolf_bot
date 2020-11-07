@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const { Client, Util} = require('discord.js');
 const client = new Discord.Client();
-const token = ;
+const token = process.env.token;
 
 const defaults = {
 	timeout: 30,
