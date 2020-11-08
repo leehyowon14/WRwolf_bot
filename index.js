@@ -26,16 +26,17 @@ client.on('message', async message => {
 	  .addField('이쉬/이쒸', '이쒸')
 	  .addField('!청소 (숫자)', '메세지 삭제하기')
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
+      .addField('fuck', '엿날리기', true)
       .addField('음', '펀쿨섹좌', true)
-      .addField('!fy/!료 + [멘션]', '엿날리기', true)
-	  .addField('투표', '!투표.[주제].[항목1/항목2/항목3].시간(1초 이상)')
+      .addField('!fy/!료', '엿날리기', true)
+	  .addField('투표', '!투표시작 "(제목)" [선택지, 선택지 ...] \n2.!투표 {태그} (선택지) \n3.!결과 (태그)\n')
 	  .addField('!dm', '갠메 공지')
       .addBlankField()
       .setTimestamp()
       .setFooter('Developed by 월울프_')
 
     message.channel.send(embed)
-  }else if(message.content == '!초대코드' || '초대링크') {
+  }else if(message.content == '!초대코드' || '!초대링크') {
 
     message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
       .then(invite => {
@@ -47,15 +48,14 @@ client.on('message', async message => {
         message.channel.send(embed)
       });
   }else if(message.content == '!fy' || '!료') {
-	if (!message.mentions.users.size) {
-		return message.channel.send(`올바른 사용법: !fy [멘션]`);
-	}
-	const targgeduser = message.mentions.first();
-    message.channel.send(`fuck you bitch <@${targgeduser.username}>`)
+    message.channel.send('fuck you bitch')
     message.channel.send(':middle_finger:')
     
   }else if(message.content == '음') {
     message.channel.send('https://cdn.discordapp.com/attachments/742044949859795019/755704078943649862/FirmLoathsomeFrillneckedlizard-size_restricted.gif')
+    
+  }else if(message.content == 'fuck') {
+    message.channel.send('https://tenor.com/view/fuck-fuckoff-fuckity-pissedoff-gif-9736688')
     
   }else if(message.content == '이쒸' || '이쉬') {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-mad-angry-you-wanna-fight-me-gif-17326578')
@@ -82,7 +82,7 @@ client.on('message', async message => {
 		}
 	embed.setDescription(tempString)
 	embed.addField("주제", args[1])
-	embed.addField(`투표시간`, `${args[2]}초`)
+	embed.addField(`투표시간`, `${args[3]}초`)
 	embed.setFooter(`developed by 월울프_`)
 	console.log('전송')
 	message.channel.send({ embed: embed }).then(msg => {
@@ -92,7 +92,7 @@ client.on('message', async message => {
 		setTimeout(function() {
 			msg.edit(`<@!${message.author.id}> 투표가 종료되었습니다.`, { embed: embed })
 			console.log('종료')
-		}, parseInt(args[2])*1000)
+		}, parseInt(args[3])*1000)
 	})
 }
 
