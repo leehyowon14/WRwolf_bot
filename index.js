@@ -479,10 +479,12 @@ client.on('message', async message => {
     if(message.member != null) { // 채널에서 공지 쓸 때
 		let contents = message.content.slice('!dm'.length);
 	  	let embed = new Discord.RichEmbed()
-        	.setColor('#186de6')
+			.setTitle('전체공지')
+			.setDescription(`from <@${message.author.id}>`)
+			.setColor('#186de6')
         	.setTimestamp()
 			.setFooter('Developed by 월울프_')
-		embed.addField(`전체공지 from <@${message.author.id}>`, contents)
+		embed.addField(`공지`, contents)
 
 	  message.member.guild.members.array().forEach(x => {
         if(x.user.bot) return;
