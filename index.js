@@ -28,7 +28,7 @@ client.on('message', async message => {
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
       .addField('fuck', '엿날리기', true)
       .addField('음', '펀쿨섹좌', true)
-      .addField('!fy/!료 + [멘션]', '엿날리기', true)
+      .addField('!fy/!료', '엿날리기', true)
 	  .addField('투표', '!투표.[제목].[선택지1/선택지2/....5].[투표 시간(초)]')
 	  .addField('!dm', '갠메 공지')
       .addBlankField()
@@ -48,13 +48,7 @@ client.on('message', async message => {
         message.channel.send(embed)
       });
   }else if(message.content == '!fy' || message.content == '!료') {
-	if (!message.mentions.users.size) {
-		return message.reply('올바른 사용법: !fy [멘션]');
-	}
-
-	const taggedUser = message.mentions.users.first();
-
-    message.channel.send(`fuck you bitch <@${taggedUser.username}>`)
+    message.channel.send(`fuck you bitch`)
     message.channel.send(':middle_finger:')
     
   }else if(message.content == '음') {
