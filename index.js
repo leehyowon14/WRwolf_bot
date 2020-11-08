@@ -449,7 +449,7 @@ client.on('message', async message => {
 			.addField(invite.url)
 			.setTimestamp()
 			.setFooter('Developed by 월울프_')
-        message.channel.send(embed)
+        message.channel.send(embed)123
       });
   }else if(message.content == '!fy') {
     message.channel.send('fuck you bitch')
