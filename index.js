@@ -54,7 +54,7 @@ client.on('message', async message => {
 
 	const taggedUser = message.mentions.users.first();
 
-    message.channel.send(`fuck you bitch <@${taggedUser.username}`)
+    message.channel.send(`fuck you bitch <@${taggedUser.username}>`)
     message.channel.send(':middle_finger:')
     
   }else if(message.content == '음') {
