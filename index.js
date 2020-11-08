@@ -431,7 +431,7 @@ client.on('message', async message => {
 	  .addField('!초대코드', '초대코드 만들기')
       .addField('fuck', '엿날리기', true)
       .addField('음', '펀쿨섹좌', true)
-      .addField('!fy', '엿날리기', true)
+      .addField('!fy/!료', '엿날리기', true)
 	  .addField('투표', '!투표시작 "(제목)" [선택지, 선택지 ...] \n2.!투표 {태그} (선택지) \n3.!결과 (태그)\n')
 	  .addField('!dm', '갠메 공지')
       .addBlankField()
@@ -444,12 +444,11 @@ client.on('message', async message => {
     message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
       .then(invite => {
 		let embed = new Discord.RichEmbed()
-			.setTitle(`초대링크`)
 			.setColor('#186de6')
-			.addField(invite.url)
+			.addField(`초대링크`, invite.url)
 			.setTimestamp()
 			.setFooter('Developed by 월울프_')
-        message.channel.send(embed)123
+        message.channel.send(embed)
       });
   }else if(message.content == '!fy') {
     message.channel.send('fuck you bitch')
@@ -480,11 +479,10 @@ client.on('message', async message => {
     if(message.member != null) { // 채널에서 공지 쓸 때
 		let contents = message.content.slice('!dm'.length);
 	  	let embed = new Discord.RichEmbed()
-			.setAuthor(`전체공지 from <@${message.author.id}>`)
         	.setColor('#186de6')
         	.setTimestamp()
 			.setFooter('Developed by 월울프_')
-		embed.addField(contents)
+		embed.addField(`전체공지 from <@${message.author.id}>`, contents)
 
 	  message.member.guild.members.array().forEach(x => {
         if(x.user.bot) return;
