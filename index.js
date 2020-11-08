@@ -28,15 +28,15 @@ client.on('message', async message => {
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
       .addField('fuck', '엿날리기', true)
       .addField('음', '펀쿨섹좌', true)
-      .addField('!fy/!료', '엿날리기', true)
-	  .addField('투표', '!투표시작 "(제목)" [선택지, 선택지 ...] \n2.!투표 {태그} (선택지) \n3.!결과 (태그)\n')
+      .addField('!fy/!료 + [멘션]', '엿날리기', true)
+	  .addField('투표', '!투표.[제목].[선택지1/선택지2/....5].[투표 시간(초)]')
 	  .addField('!dm', '갠메 공지')
       .addBlankField()
       .setTimestamp()
       .setFooter('Developed by 월울프_')
 
     message.channel.send(embed)
-  }else if(message.content == '!초대코드' || '!초대링크') {
+  }else if(message.content == '!초대코드' || message.content == '!초대링크') {
 
     message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
       .then(invite => {
@@ -47,8 +47,14 @@ client.on('message', async message => {
 			.setFooter('Developed by 월울프_')
         message.channel.send(embed)
       });
-  }else if(message.content == '!fy' || '!료') {
-    message.channel.send('fuck you bitch')
+  }else if(message.content == '!fy' || message.content == '!료') {
+	if (!message.mentions.users.size) {
+		return message.reply('올바른 사용법: !fy [멘션]');
+	}
+
+	const taggedUser = message.mentions.users.first();
+
+    message.channel.send(`fuck you bitch <@${taggedUser.username}`)
     message.channel.send(':middle_finger:')
     
   }else if(message.content == '음') {
@@ -57,7 +63,7 @@ client.on('message', async message => {
   }else if(message.content == 'fuck') {
     message.channel.send('https://tenor.com/view/fuck-fuckoff-fuckity-pissedoff-gif-9736688')
     
-  }else if(message.content == '이쒸' || '이쉬') {
+  }else if(message.content == '이쒸' || message.content == '이쉬') {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-mad-angry-you-wanna-fight-me-gif-17326578')
     
   }else if(message.content == '양아지는') {
