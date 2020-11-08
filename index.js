@@ -444,7 +444,7 @@ client.on('message', async message => {
     message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
       .then(invite => {
 		let embed = new Discord.RichEmbed()
-			.setAuthor(`초대링크`)
+			.setTitle(`초대링크`)
 			.setColor('#186de6')
 			.addField(invite.url)
 			.setTimestamp()
@@ -470,8 +470,9 @@ client.on('message', async message => {
   }else if(message.content == '양아지는') {
     message.channel.send('사랑이다\n```\n권희준님 요청\n```')
     
-  }else if(message.content == '희준아') {
-    message.channel.send('돈줘라')
+  }else if(message.content == '!료') {
+    message.channel.send('fuck you bitch')
+    message.channel.send(':middle_finger:')
   }
 
   if(message.content.startsWith('!dm')) {
