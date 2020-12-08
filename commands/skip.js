@@ -10,7 +10,10 @@ module.exports = {
   },
 
   run: async function (client, message, args) {
-if (!msg.member.hasPermission('ADMINISTRATOR')) return
+if (!message.member.hasPermission('ADMINISTRATOR')) {
+  message.channel.send(`<@${message.author.id}> 명령어를 수행할 관리자 권한을 소지하고 있지않습니다.`)
+  return
+}
     const channel = message.member.voice.channel
     if (!channel)return sendError("I'm sorry but you need to be in a voice channel to play music!", message.channel);
     const serverQueue = message.client.queue.get(message.guild.id);
