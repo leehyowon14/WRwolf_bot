@@ -10,6 +10,7 @@ module.exports = {
   },
 
   run: async function (client, message, args) {
+if (!msg.member.hasPermission('ADMINISTRATOR')) return
     const channel = message.member.voice.channel
     if (!channel)return sendError("I'm sorry but you need to be in a voice channel to play music!", message.channel);
     const serverQueue = message.client.queue.get(message.guild.id);
@@ -20,7 +21,7 @@ if(!serverQueue.connection.dispatcher)return
       serverQueue.playing = true;
       serverQueue.connection.dispatcher.resume();
       let xd = new MessageEmbed()
-      .setDescription("▶ Resumed the music for you!")
+      .setDescription(":arrow_forward: Resumed the music for you!")
       .setColor("YELLOW")
       .setTitle("Music has been Resumed!")
        
@@ -36,6 +37,6 @@ if(!serverQueue.connection.dispatcher)return
         message.client.queue.delete(message.guild.id);
         return sendError(`:notes: The player has stopped and the queue has been cleared.: ${error}`, message.channel);
       }
-    message.react("✅")
+    message.react(":white_check_mark:")
   },
 };
