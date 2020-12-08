@@ -3,49 +3,49 @@ const { Client, Util} = require('discord.js');
 const client = new Discord.Client();
 const token = process.env.token;
 
-
 client.on('ready', async () => {
   console.log('WRwolf_bot is now online');
-  client.user.setPresence({ game: { name: '명령어:w_help' }, status: 'online' })
+  client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
 
+client.on("message", (message) => {
+  if (message.author.bot) return
 
-client.on('message', async message => {
-  if(message.author.bot) return;
-
-  if(message.content == 'ping') {
-    return message.reply('pong');
+  if (message.content == "ping") {
+    return message.reply("pong")
   }
-
   if(message.content == 'w_help') {
-	let embed = new Discord.RichEmbed()
+	let embed = new Discord.MessageEmbed()
 	  .setColor('#73c4fa')
 	  .setTitle('울프봇 명령어')
-      .addBlankField()
-	  .addField('이쉬/이쒸', '이쒸')
+    .addField('\u200B', '\u200B')
+    .addField('이쉬/이쒸', '이쒸')
+    .addField('ㅂㄷㅂㄷ/qeqe', 'ㅂㄷㅂㄷ')
 	  .addField('!청소 (숫자)', '메세지 삭제하기')
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
-      .addField('fuck', '엿날리기', true)
-      .addField('음', '펀쿨섹좌', true)
-      .addField('!fy/!료', '엿날리기', true)
-	  .addField('투표', '!투표.[제목].[선택지1/선택지2/....5].[투표 시간(초)]')
+    .addField('fuck', '엿날리기', true)
+    .addField('음', '펀쿨섹좌', true)
+    .addField('!fy/!료', '엿날리기', true)
+	  .addField('투표', '패치중...')
 	  .addField('!dm', '갠메 공지')
-      .addBlankField()
-      .setTimestamp()
-      .setFooter('Developed by 월울프_')
+    .addField('\u200B', '\u200B')
+    .setTimestamp()
+    .setFooter('Developed by 월울프_')
 
     message.channel.send(embed)
   }else if(message.content == '!초대코드' || message.content == '!초대링크') {
 
-    message.guild.channels.get(message.channel.id).createInvite({maxAge: 0}) // maxAge: 0은 무한이라는 의미, maxAge부분을 지우면 24시간으로 설정됨
+    message.guild.channels.cache
+    .get(message.channel.id)
+    .createInvite({ maxAge: 0 })
       .then(invite => {
-		let embed = new Discord.RichEmbed()
+		let embed = new Discord.MessageEmbed()
 			.setColor('#186de6')
 			.addField(`초대링크`, invite.url)
 			.setTimestamp()
 			.setFooter('Developed by 월울프_')
-        message.channel.send(embed)
+    message.channel.send(embed)
       });
   }else if(message.content == '!fy' || message.content == '!료') {
     message.channel.send(`fuck you bitch`)
@@ -63,109 +63,115 @@ client.on('message', async message => {
   }else if(message.content == '양아지는') {
     message.channel.send('사랑이다\n```\n권희준님 요청\n```')
     
+  }else if(message.content == 'ㅂㄷㅂㄷ' || message.content == 'qeqe') {
+    message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-fist-angry-mad-gif-17326572')
   }
-  
-  if(message.content.startsWith("!투표")) {
-	let args = message.content.split(".") // ["!투표", "주제", "항목1/항목2/항목3", "시간(초)"]
-	let list = args[2].split("/") // ["항목1", "항목2", "항목3"]
-	let emojis = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
-	let tempString = ""
-	let temp = 0
-	if(!args) message.reply("`!투표.[주제].[항목1/항목2/항목3].시간(1초 이상)` 이 올바른 명령어 입니다.")
-	if(!args[3] || args[3] < 1) message.reply("`!투표.[항목1/항목2/항목3].시간(1초 이상)` 이 올바른 명령어 입니다.")
-	if(list > 5) message.reply("항목은 최대 5개까지 가능합니다.")
-	let embed = new Discord.RichEmbed()
-	embed.setTitle(`${message.member.displayName}님의 투표`)
-		for(let i=0; i<list.length; i++) {
-			temp += 1
-			tempString += `**${temp}. ${list[i]}**\n`
-		}
-	embed.setDescription(tempString)
-	embed.addField("주제", args[1])
-	embed.addField(`투표시간`, `${args[3]}초`)
-	embed.setFooter(`developed by 월울프_`)
-	console.log('전송')
-	message.channel.send({ embed: embed }).then(msg => {
-		for(let i=0; i<list.length; i++) {
-			msg.react(emojis[i])
-		}
-		setTimeout(function() {
-			msg.edit(`<@!${message.author.id}> 투표가 종료되었습니다.`, { embed: embed })
-			console.log('종료')
-		}, parseInt(args[3])*1000)
-	})
-}
+
 
   if(message.content.startsWith('!dm')) {
     if(checkPermission(message)) return
     if(message.member != null) { // 채널에서 공지 쓸 때
 		let contents = message.content.slice('!dm'.length);
-	  	let embed = new Discord.RichEmbed()
+	  	let embed = new Discord.MessageEmbed()
 			.setTitle('전체공지')
 			.setDescription(`from <@${message.author.id}>`)
 			.setColor('#186de6')
-        	.setTimestamp()
+      .setTimestamp()
 			.setFooter('Developed by 월울프_')
 		embed.addField(`공지`, contents)
 
-	  message.member.guild.members.array().forEach(x => {
+    message.member.guild.members.cache.array().forEach((x) => {
         if(x.user.bot) return;
-        x.user.send(embed);
-      });
+        x.user.send(embed)
+      })
   
       return message.reply('공지를 전송했습니다.');
     } else {
       return message.reply('채널에서 실행해주세요.');
     }
-  }
+  } else if (message.content.startsWith("!청소")) {
+    if (message.channel.type == "dm") {
+      return message.reply("dm에서 사용할 수 없는 명령어 입니다.")
+    }
 
-  if(message.content.startsWith('!청소')) {
-    if(checkPermission(message)) return
+    if (message.channel.type != "dm" && checkPermission(message)) return
 
-    var clearLine = message.content.slice('!청소 '.length);
+    var clearLine = message.content.slice("!청소 ".length)
     var isNum = !isNaN(clearLine)
 
-    if(isNum && (clearLine <= 0 || 100 < clearLine)) {
+    if (isNum && (clearLine <= 0 || 100 < clearLine)) {
       message.channel.send("1부터 100까지의 숫자만 입력해주세요.")
-      return;
-    } else if(!isNum) { 
-      if(message.content.split('<@').length == 2) {
-        if(isNaN(message.content.split(' ')[2])) return;
+      return
+    } else if (!isNum) {
+      // c @나긋해 3
+      if (message.content.split("<@").length == 2) {
+        if (isNaN(message.content.split(" ")[2])) return
 
-        var user = message.content.split(' ')[1].split('<@!')[1].split('>')[0];
-        var count = parseInt(message.content.split(' ')[2])+1;
-        const _limit = 10;
-        let _cnt = 0;
+        var user = message.content.split(" ")[1].split("<@!")[1].split(">")[0]
+        var count = parseInt(message.content.split(" ")[2]) + 1
+        let _cnt = 0
 
-        message.channel.fetchMessages({limit: _limit}).then(collected => {
-          collected.every(msg => {
-            if(msg.author.id == user) {
-              msg.delete();
-              ++_cnt;
+        message.channel.messages.fetch().then((collected) => {
+          collected.every((msg) => {
+            if (msg.author.id == user) {
+              msg.delete()
+              ++_cnt
             }
-            return !(_cnt == count);
-          });
-        });
+            return !(_cnt == count)
+          })
+        })
       }
     } else {
-      message.channel.bulkDelete(parseInt(clearLine) + 1)
+      message.channel
+        .bulkDelete(parseInt(clearLine) + 1)
         .then(() => {
-          AutoMsgDelete(message, `<@${message.author.id}> ` + parseInt(clearLine) + "개의 메시지를 삭제했습니다. (이 메세지는 잠시 후에 사라집니다.)");
+          message.channel.send(`<@${message.author.id}> ${parseInt(clearLine)} 개의 메시지를 삭제했습니다. (이 메시지는 잠시 후 사라집니다.)`).then((msg) => msg.delete({ timeout: 3000 }))
         })
         .catch(console.error)
-	}
-
- }
-});
+    }
+  }
+})
 
 function checkPermission(message) {
-  if(!message.member.hasPermission("MANAGE_MESSAGES")) {
-    message.channel.send(`<@${message.author.id}> ` + "명령어를 수행할 관리자 권한을 소지하고 있지않습니다.")
-    return true;
+  if (!message.member.hasPermission("MANAGE_MESSAGES")) {
+    message.channel.send(`<@${message.author.id}> 명령어를 수행할 관리자 권한을 소지하고 있지않습니다.`)
+    return true
   } else {
-    return false;
+    return false
   }
 }
 
+client.on('messageUpdate', async(oldMessage, newMessage) => {
+  if(oldMessage.content === newMessage.content) return // 임베드로 인한 수정같은 경우 
+  let img = oldMessage.author.avatar ? `https://cdn.discordapp.com/avatars/${oldMessage.author.id}/${oldMessage.author.avatar}.webp?size=256` : undefined;
+  let embed = new Discord.MessageEmbed()
+  .setTitle('Chatting Log')
+  .setColor('#FFFF')
+  .addField('Log-Type', 'Edited Message')
+  .addField('Message By:', oldMessage.author.tag)
+  .addField('Channel:', oldMessage.channel.name)
+  .addField('Old Message:', oldMessage.content)
+  .addField('New Message:', newMessage.content)
+  .setFooter(oldMessage.author.tag, img)
+  .setTimestamp()
+
+  oldMessage.channel.send(embed)
+}) // 메세지 수정로그
+
+client.on('messageDelete', async message => {
+let img = message.author.avatar ? `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp?size=256` : undefined;
+let embed = new Discord.MessageEmbed()
+.setTitle('')
+.setColor('#FFFF')
+.addField('Log-Type', 'Deleted Message')
+.addField('Message By:', message.author.tag)
+.addField('Channel:', message.channel.name)
+.addField('Message:', message.content)
+.setFooter(message.author.tag, img)
+.setTimestamp()
+
+message.channel.send(embed)
+
+})
 
 client.login(token);
