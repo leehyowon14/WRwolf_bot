@@ -5,8 +5,20 @@ const { Client, Util} = require('discord.js');
 const { Collection } = require("discord.js");
 const client = new Discord.Client();
 const token = process.env.token;
+const { readdirSync } = require('fs');
+const { connect } = require('mongoose');
+const fetchAll = require('./util/fetchAll');
+const emojiArray = require('./util/optionArray');
+const pollModel = require('./models/poll');
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
+
+const commandFiles = readdirSync('./commands/poll');
+for (const file of commandFiles) {
+    const command = require(`./commands/poll/${file}`);
+    client.commands.set(command.name, command);
+}
+
 
 client.config = {
   prefix: process.env.PREFIX
@@ -15,15 +27,60 @@ client.config = {
 client.on('ready', async () => {
   console.log('WRwolf_bot is now online');
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
+  setInterval(async () => {
+    for (const guild of client.guilds.cache) {
+        const pollArray = await pollModel.find({
+            guild: guild[0],
+        }).catch(err => console.log(err));
+
+        for (const poll of pollArray) {
+            if (Date.now() >= Number(poll.expiryDate)) {
+                const channel = client.channels.cache.get(poll.textChannel);
+                const msg = await channel.messages.fetch(poll.message).catch(err => console.log(err));
+
+                const resultsArr = [];
+
+                for (const e of emojiArray()) {
+                    const allReactions = await fetchAll(msg, e).catch(err => console.log(err));
+                    resultsArr.push([e, typeof allReactions == 'object' ? allReactions.length : undefined]);
+                }
+
+                resultsArr.sort((a, b) => b[1] - a[1]);
+
+                if (resultsArr[0][1] == resultsArr[1][1]) {
+                    channel.send(`It was a tie! \nhttps://discordapp.com/channels/${msg.guild.id}/${channel.id}/${msg.id}`);
+                }
+                else {
+                    channel.send(`The winner of the poll was option ${resultsArr[0][0]} \nhttps://discordapp.com/channels/${msg.guild.id}/${channel.id}/${msg.id}`);
+                }
+
+                await poll.deleteOne().catch(err => console.log(err));
+            }
+        }
+    }
+}, 30000);
 });
 
 
 client.on("message", (message) => {
-  if (message.author.bot) return
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  const args = message.content.slice(prefix.length).trim().split(/ +/);
+  const command = args.shift().toLowerCase();
+  const cmd = client.commands.get(command);
+  if (!cmd) return;
+
+  try {
+    cmd.execute(message, args);
+  }
+  catch (error) {
+    console.error(error);
+    message.channel.send('There was an error trying to execute that command!');
+  }
 
   if (message.content == "ping") {
     return message.reply("pong")
   }
+
   if(message.content == 'w_help') {
 	let embed = new Discord.MessageEmbed()
 	  .setColor('#73c4fa')
@@ -36,7 +93,7 @@ client.on("message", (message) => {
     .addField('fuck', '엿날리기', true)
     .addField('음', '펀쿨섹좌', true)
     .addField('!fy/!료', '엿날리기', true)
-	  .addField('투표', '패치중...')
+	  .addField('투표', '-poll {제목} {투표가 진행될 시간} [선택지1] [선택지2] [선택지3]')
 	  .addField('!dm', '갠메 공지')
     .addField('\u200B', '\u200B')
     .setTimestamp()
@@ -139,7 +196,8 @@ client.on("message", (message) => {
         .catch(console.error)
     }
   }
-})
+
+});
 
 function checkPermission(message) {
   if (!message.member.hasPermission("MANAGE_MESSAGES")) {
@@ -194,11 +252,11 @@ fs.readdir(__dirname + "/events/", (err, files) => {
 });
 
 //Loading Commands
-fs.readdir("./commands/", (err, files) => {
+fs.readdir("./commands/music/", (err, files) => {
   if (err) return console.error(err);
   files.forEach((file) => {
     if (!file.endsWith(".js")) return;
-    let props = require(`./commands/${file}`);
+    let props = require(`./commands/music/${file}`);
     let commandName = file.split(".")[0];
     client.commands.set(commandName, props);
     console.log("Loading Command: "+commandName)
