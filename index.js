@@ -78,7 +78,9 @@ client.on("message", (message) => {
     .addField('\u200B', '\u200B')
     .addField('이쉬/이쒸', '이쒸')
     .addField('ㅂㄷㅂㄷ/qeqe', 'ㅂㄷㅂㄷ')
-	  .addField('!청소 (숫자)', '메세지 삭제하기')
+    .addField('!코로나/!covid', '전국/경북 코로나 확진자 현황')
+    .addField('!청소 (숫자)', '메세지 삭제하기')
+    .addField('ㄱㅅㄱㅅㄱㅅㄱㅅ, rtrtrtrt, ㄳㄳㄳㄳ', '감사합니다아ㅏㅏ')
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
     .addField('fuck', '엿날리기', true)
     .addField('음', '펀쿨섹좌', true)
@@ -168,6 +170,8 @@ request(url, (error, response, body) => {
     message.channel.send(embed4)
   })
 
+  }else if(message.content == 'ㄱㅅㄱㅅㄱㅅㄱㅅ' || message.content == 'rtrtrtrt' || message.content == 'ㄳㄳㄳㄳ'){
+    message.channel.send('https://media.discordapp.net/attachments/785910540526157864/793784533350219786/ezgif.com-gif-maker_3.gif')
   }
 
 
