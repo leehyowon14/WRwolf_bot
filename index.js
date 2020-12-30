@@ -6,12 +6,17 @@ const { Collection } = require("discord.js");
 const request = require("request")
 const client = new Discord.Client();
 const token = process.env.token;
-
+//randUM
+const { get } = require('superagent')
+const MessageEmbed = require('discord.js')
+const { where, doing, track, ajemt } = require('./data/datas.json')
+//randUm
 const webhook = new Discord.WebhookClient(process.env.webhookid, process.env.webhooktoken);
 const prefix = '-'
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
 
+//randUM
 /**
  * @param {string[]} arr
  * @returns {string}
@@ -19,7 +24,7 @@ client.queue = new Map()
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)]
 const bold = (txt) => { return `**${txt}**` }
 const spoiler = (txt) => { return `||${txt}||` }
-
+//randUM
 
 
 client.on('ready', async () => {
@@ -28,6 +33,7 @@ client.on('ready', async () => {
 });
 
 client.on('message', async (msg) => {
+  //randUM
   const { author, content, channel } = msg
 
   if (author.bot) return
@@ -280,27 +286,5 @@ client.on('messageDelete', async message => {
   webhook.send(embed)
 
 })
-
-fs.readdir(__dirname + "/events/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach((file) => {
-    const event = require(__dirname + `/events/${file}`);
-    let eventName = file.split(".")[0];
-    client.on(eventName, event.bind(null, client));
-    console.log("Loading Event: "+eventName)
-  });
-});
-
-//Loading Commands
-fs.readdir("./commands/", (err, files) => {
-  if (err) return console.error(err);
-  files.forEach((file) => {
-    if (!file.endsWith(".js")) return;
-    let props = require(`./commands/${file}`);
-    let commandName = file.split(".")[0];
-    client.commands.set(commandName, props);
-    console.log("Loading Command: "+commandName)
-  });
-});
 
 client.login(token);
