@@ -6,25 +6,10 @@ const { Collection } = require("discord.js");
 const request = require("request")
 const client = new Discord.Client();
 const token = process.env.token;
-//randUM
-const { get } = require('superagent')
-const MessageEmbed = require('discord.js')
-const { where, doing, track, ajemt } = require('./data/datas.json')
-//randUm
 const webhook = new Discord.WebhookClient(process.env.webhookid, process.env.webhooktoken);
 const prefix = '-'
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
-
-//randUM
-/**
- * @param {string[]} arr
- * @returns {string}
- */
-const pick = (arr) => arr[Math.floor(Math.random() * arr.length)]
-const bold = (txt) => { return `**${txt}**` }
-const spoiler = (txt) => { return `||${txt}||` }
-//randUM
 
 
 client.on('ready', async () => {
@@ -32,44 +17,6 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
-client.on('message', async (msg) => {
-  //randUM
-  const { author, content, channel } = msg
-
-  if (author.bot) return
-  if (track.indexOf(content) > -1) return channel.send(track[track.indexOf(content) + 1])
-
-  if (!content.startsWith(prefix)) return
-
-  const slices = content.substring(prefix.length).split(' ')
-  const args = slices.slice(1)
-  const cmd = slices[0]
-
-  switch (cmd) {
-    case 'randUm':
-    case 'randum': {
-      const nick = (args[1] || '') + pick(where) + pick(doing) + (args[0] || author.username)
-      await msg.member.setNickname(nick, '엄준식').catch(() => {})
-
-      let embed = new MessageEmbed({
-        title: '성공',
-        description: bold(nick) + '로 변경이 완료되었습니다.',
-        color: 0x42f55a
-      })
-
-      if (msg.member.nickname !== nick) {
-        embed = new MessageEmbed({
-          title: '실패',
-          description: bold(nick) + '로 변경하지 못했습니다.\n봇의 역할 권한이 명령어를 쓰는 사람보다 높아 실패하는 경우가 많습니다.',
-          color: 0xff0000
-        })
-      }
-
-      msg.channel.send(embed)
-      break
-    }
-  }
-})
 
 client.on("message", (message) => {
   if (message.author.bot) return
