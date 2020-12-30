@@ -122,6 +122,7 @@ client.on("message", (message) => {
   }else if(message.content == 'ㅂㄷㅂㄷ' || message.content == 'qeqe') {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-fist-angry-mad-gif-17326572')
   }else if(message.content == '!covid' || message.content =='!코로나'){
+    const request = require("request")
     let url = "https://apiv2.corona-live.com/stats.json"
 request(url, (error, response, body) => {
     let overview = JSON.parse(response.body).overview;
@@ -261,18 +262,18 @@ client.on('messageUpdate', async(oldMessage, newMessage) => {
 }) // 메세지 수정로그
 
 client.on('messageDelete', async message => {
-let img = message.author.avatar ? `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp?size=256` : undefined;
-let embed = new Discord.MessageEmbed()
-.setTitle('')
-.setColor('#FFFF')
-.addField('Log-Type', 'Deleted Message')
-.addField('Message By:', message.author.tag)
-.addField('Channel:', message.channel.name)
-.addField('Message:', message.content)
-.setFooter(message.author.tag, img)
-.setTimestamp()
-
-webhook.send(embed)
+  let img = message.author.avatar ? `https://cdn.discordapp.com/avatars/${message.author.id}/${message.author.avatar}.webp?size=256` : undefined;
+  let embed = new Discord.MessageEmbed()
+  .setTitle('')
+  .setColor('#FFFF')
+  .addField('Log-Type', 'Deleted Message')
+  .addField('Message By:', message.author.tag)
+  .addField('Channel:', message.channel.name)
+  .addField('Message:', message.content)
+  .setFooter(message.author.tag, img)
+  .setTimestamp()
+  
+  webhook.send(embed)
 
 })
 
