@@ -7,7 +7,7 @@ const request = require("request")
 const client = new Discord.Client();
 const token = process.env.token;
 
-const webhook = new Discord.WebhookClient(process.env.web1)
+const webhook = new Discord.WebhookClient(process.env.webhookid, process.env.webhooktoken)
 const prefix = '-'
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
