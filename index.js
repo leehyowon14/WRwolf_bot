@@ -3,8 +3,11 @@ const Discord = require('discord.js');
 const fs = require("fs");
 const { Client, Util} = require('discord.js');
 const { Collection } = require("discord.js");
+const request = require("request")
 const client = new Discord.Client();
 const token = process.env.token;
+const webhook = new Discord.WebhookClient( process.env.web1, process.env.web2 )
+const prefix = '-'
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
 
@@ -16,9 +19,7 @@ const pick = (arr) => arr[Math.floor(Math.random() * arr.length)]
 const bold = (txt) => { return `**${txt}**` }
 const spoiler = (txt) => { return `||${txt}||` }
 
-client.config = {
-  prefix: process.env.PREFIX
-}
+
 
 client.on('ready', async () => {
   console.log('WRwolf_bot is now online');
@@ -119,6 +120,52 @@ client.on("message", (message) => {
     
   }else if(message.content == 'ㅂㄷㅂㄷ' || message.content == 'qeqe') {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-fist-angry-mad-gif-17326572')
+  }else if(message.content == '!covid' || message.content =='!코로나'){
+    let url = "https://apiv2.corona-live.com/stats.json"
+request(url, (error, response, body) => {
+    let overview = JSON.parse(response.body).overview;
+    overview = {
+        total_confirmed_person: overview.confirmed[0], // 총 확진자수
+        yesterday_confirmed_person: overview.confirmed[1], // 어제 확진자수
+
+        current_confirmed_person: overview.current[0], // 현재 확진자수
+        current_confirmed_person_diff: overview.current[1], // diff(어제 이 시간대 확진자 수 - 현재 이 시간대 확진자 수)
+    }
+
+    let current = JSON.parse(response.body).current;
+    current = {
+        gyeongbuk_confirmed_person: current[12].cases[0],//경북 현재 확진자 수
+        gyeongbuk_confirmed_person_diff: current[12].cases[1],//경북 diff(어제 이 시간대 확진자 수 - 현재 이 시간대 확진자 수)
+    }
+
+    let overall = JSON.parse(response.body).overall;
+    overall = {
+        gyeongbuk_total_confirmed_person: overall[12].cases[0], // 경북 총 확진자수
+        gyeongbuk_yesterday_confirmed_person: overall[12].cases[1], // 경북 어제 확진자수
+    }
+
+    let embed = new Discord.MessageEmbed()
+    embed.setTitle('코로나')
+    embed.setURL('https://corona-live.com')
+    embed.setColor('#FF8000')
+    embed.setDescription('증상이 있으실 경우 주변 접촉자에게 알리신 후 인근 보건소를 찾아주시기 바랍니다')
+    embed.addField(`대한민국 총 확진자수`, `${overview.total_confirmed_person}명`, true)
+    embed.addField(`어제 확진자수`, overview.yesterday_confirmed_person + `명`, true)
+    embed.addField(`오늘 확진자수(집계중)`, overview.current_confirmed_person + `명`, true)
+    embed.addField(`오늘 어제지금시간   -   현재지금시간의 확진자`, overview.current_confirmed_person_diff + `명`, true)
+    embed.addField(`--------------------------------------------------------------------------------------------------`, 'ㅤ')
+    let embed4 = new Discord.MessageEmbed()
+    embed4.setColor('#FF8000')
+    embed4.addField(`경북` ,'ㅤ')
+    embed4.addField(`경북 총 확진자수`,  overall.gyeongbuk_total_confirmed_person + `명`, true)
+    embed4.addField(`경북 어제 확진자수`, overall.gyeongbuk_yesterday_confirmed_person + `명`, true)
+    embed4.addField(`경북 현재 확진자 수(집계중)`, current.gyeongbuk_confirmed_person + `명`, true)
+    embed4.addField(`경북 어제  지금시간   -   현재지금시간의 확진자`, current.gyeongbuk_confirmed_person_diff + `명`,true)
+    embed4.addField(`--------------------------------------------------------------------------------------------------`, 'ㅤ')
+    message.channel.send(embed)
+    message.channel.send(embed4)
+  })
+
   }
 
 
@@ -209,7 +256,7 @@ client.on('messageUpdate', async(oldMessage, newMessage) => {
   .setFooter(oldMessage.author.tag, img)
   .setTimestamp()
 
-  oldMessage.channel.send(embed)
+  webhook.send(embed)
 }) // 메세지 수정로그
 
 client.on('messageDelete', async message => {
@@ -224,7 +271,7 @@ let embed = new Discord.MessageEmbed()
 .setFooter(message.author.tag, img)
 .setTimestamp()
 
-message.channel.send(embed)
+webhook.send(embed)
 
 })
 
