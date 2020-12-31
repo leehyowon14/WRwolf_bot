@@ -51,7 +51,7 @@ client.on('message', async message => {
 })
 
 
-client.on('message', message => {
+client.on('message', (message) => {
 
   if (message.content == "ping") {
     return message.reply("pong")
@@ -74,16 +74,12 @@ client.on('message', message => {
 	  .addField('투표(YES or NO)', '패치중...')
     .addField('!dm', '갠메 공지')
     .addField('\u200B', '\u200B')
-    .addField(
-      { name: '음악', value: '음악봇 명령어'},
-      { name: '-play[p] <음악 링크 or 제목>', value: '음악 재생', inline: true },
-      { name: '-stop', value: '음악 재생 정지', inline: true }
-    )
-    .addField(
-      { name: '-repeat[loop][rp]', value: '반복재생 on/off'},
-      { name: '-skip', value: '음악 스킵', inline: true },
-      { name: '-volume[v][set][set-volume] <1~100까지의 숫자>', value: '볼륨 조절', inline: true }
-    )
+    .addField('음악', '음악봇 명령어')
+    .addField('-play[p] <음악 링크 or 제목>', '음악 재생', true)
+    .addField('-stop', '음악 재생 정지', true )
+    .addField('-repeat[loop][rp]', '반복재생 on/off')
+    .addField('-skip', '음악 스킵', true)
+    .addField('-volume[v][set][set-volume] <1~100까지의 숫자>', '볼륨 조절', true)
     .addField('-queue[q]', '재생중인 음악 정보')
     .addField('\u200B', '\u200B')
     .setTimestamp()
