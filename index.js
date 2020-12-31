@@ -33,7 +33,7 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
-client.on('message', async message => {
+client.on('message', async(message) => {
 
   if (!message.content.startsWith(prefix)) return
   const args = message.content.slice(prefix.length).trim().split(/ +/g)
@@ -67,7 +67,19 @@ client.on('message', async message => {
     .addField('음', '펀쿨섹좌', true)
     .addField('!fy/!료', '엿날리기', true)
 	  .addField('투표(YES or NO)', '패치중...')
-	  .addField('!dm', '갠메 공지')
+    .addField('!dm', '갠메 공지')
+    .addField('\u200B', '\u200B')
+    .addField(
+      { name: '음악', value: '음악봇 명령어'},
+      { name: '-play[p] <음악 링크 or 제목>', value: '음악 재생', inline: true },
+      { name: '-stop', value: '음악 재생 정지', inline: true }
+    )
+    .addField(
+      { name: '-repeat[loop][rp]', value: '반복재생 on/off'},
+      { name: '-skip', value: '음악 스킵', inline: true },
+      { name: '-volume[v][set][set-volume] <1~100까지의 숫자>', value: '볼륨 조절', inline: true }
+    )
+    .addField('-queue[q]', '재생중인 음악 정보')
     .addField('\u200B', '\u200B')
     .setTimestamp()
     .setFooter('Developed by 월울프_')

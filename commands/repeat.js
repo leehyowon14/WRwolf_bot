@@ -2,8 +2,8 @@ module.exports = {
   name: "repeat",
   aliases: ["loop", "rp"],
   run: async (client, message, args) => {
-    if (!message.member.voice.channel) return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`)
-    if (!client.distube.isPlaying(message)) return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`)
+    if (!message.member.voice.channel) return message.channel.send(`${client.emotes.error} | 당신이 음성채널에 들어와 있어야 합니다!`)
+    if (!client.distube.isPlaying(message)) return message.channel.send(`${client.emotes.error} | 당신이 음성채널에 들어와 있어야 합니다`)
     let mode = null;
     switch (args[0]) {
       case "off":
@@ -18,6 +18,6 @@ module.exports = {
     }
     mode = client.distube.setRepeatMode(message, mode);
     mode = mode ? mode == 2 ? "Repeat queue" : "Repeat song" : "Off";
-    message.channel.send(`${client.emotes.repeat} | Set repeat mode to \`${mode}\``);
+    message.channel.send(`${client.emotes.repeat} | 반복재생: \`${mode}\``);
   }
 }
