@@ -20,7 +20,25 @@ client.on('ready', async () => {
 
 client.on("message", (message) => {
   if (message.author.bot) return
-
+  client.on('message', message => {
+    let args = message.content.substring(prefix.length).split(" ");
+    switch (args[0]) {
+    case '한강':
+      request('http://hangang.dkserver.wo.tc', (error, response, html) => {
+          if (!error && response.statusCode == 200) {
+              const river = JSON.parse(html);
+              let embed = new Discord.MessageEmbed()
+              .setColor('#4fe8a3')
+              .setTitle('한강 수온')
+              .setDescription('')
+              .addField(':droplet: ' + river.temp, '측정 시각: ' + river.time, true)
+              message.channel.send(embed)
+          }
+      });
+      break;
+    }
+  })
+  
   if (message.content == "ping") {
     return message.reply("pong")
   }
