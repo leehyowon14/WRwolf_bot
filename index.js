@@ -17,6 +17,7 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
+client.on('message', message => {
   if (message.content == "ping") {
     return message.reply("pong")
   }
@@ -198,7 +199,7 @@ request(url, (error, response, body) => {
       }
   });
 }
-
+})
 function checkPermission(message) {
   if (!message.member.hasPermission("MANAGE_MESSAGES")) {
     message.channel.send(`<@${message.author.id}> 명령어를 수행할 관리자 권한을 소지하고 있지않습니다.`)
