@@ -33,8 +33,8 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
-client.on('message', async(message) => {
-
+client.on('message', async message => {
+  let prefix = config.prefix
   if (!message.content.startsWith(prefix)) return
   const args = message.content.slice(prefix.length).trim().split(/ +/g)
   const command = args.shift().toLowerCase();
@@ -47,6 +47,11 @@ client.on('message', async(message) => {
       console.error(e)
       message.reply("Error: " + e)
   }
+
+})
+
+
+client.on('message', message => {
 
   if (message.content == "ping") {
     return message.reply("pong")
