@@ -167,7 +167,7 @@ request(url, (error, response, body) => {
 
   }else if(message.content == 'ㄱㅅㄱㅅㄱㅅㄱㅅ' || message.content == 'rtrtrtrt' || message.content == 'ㄳㄳㄳㄳ'){
     message.channel.send('https://media.discordapp.net/attachments/785910540526157864/793784533350219786/ezgif.com-gif-maker_3.gif')
-  }else if(message.contect == 'you know that' || message.contect == 'you know it') {
+  }else if(message.content == 'you know that' || message.content == 'you know it') {
     message.channel.send('https://tenor.com/view/the-rock-dwayne-johnson-ooh-oh-yes-gif-19754313')
   }
 
