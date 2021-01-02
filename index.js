@@ -67,6 +67,7 @@ client.on('message', (message) => {
     .addField('!한강', '한강 물 온도')
     .addField('!청소 (숫자)', '메세지 삭제하기')
     .addField('ㄱㅅㄱㅅㄱㅅㄱㅅ, rtrtrtrt, ㄳㄳㄳㄳ', '감사합니다아ㅏㅏ')
+    .addFilld('you know that, you know it', '잠재적 동의?')
 	  .addField('!초대코드/!초대링크', '초대링크 만들기')
     .addField('fuck', '엿날리기', true)
     .addField('음', '펀쿨섹좌', true)
@@ -166,6 +167,8 @@ request(url, (error, response, body) => {
 
   }else if(message.content == 'ㄱㅅㄱㅅㄱㅅㄱㅅ' || message.content == 'rtrtrtrt' || message.content == 'ㄳㄳㄳㄳ'){
     message.channel.send('https://media.discordapp.net/attachments/785910540526157864/793784533350219786/ezgif.com-gif-maker_3.gif')
+  }else if(message.contect == 'you know that' || message.contect == 'you know it') {
+    message.channel.send('https://tenor.com/view/the-rock-dwayne-johnson-ooh-oh-yes-gif-19754313')
   }
 
 
