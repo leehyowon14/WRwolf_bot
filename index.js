@@ -47,6 +47,10 @@ client.on('message', async message => {
       console.error(e)
       message.reply("Error: " + e)
   }
+  
+  if (command === 'reactionrole'){
+    client.commands.get('reactionrole').excute(message, args, Discord, client)
+  }
 
 })
 
@@ -100,8 +104,6 @@ client.on('message', (message) => {
 			.setFooter('Developed by 월울프_')
     message.channel.send(embed)
       });
-  }else if (command === 'reactionrole'){
-    client.commands.get('reactionrole').excute(message, args, Discord, client)
   }else if(message.content == '!fy' || message.content == '!료') {
     message.channel.send(`fuck you bitch`)
     message.channel.send(':middle_finger:')
