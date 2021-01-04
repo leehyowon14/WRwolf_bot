@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const fs = require("fs");
 const { Collection } = require("discord.js");
 const request = require("request")
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION" ]});
 const token = process.env.token;
 const DisTube = require('distube')
 const webhook = new Discord.WebhookClient(process.env.webhookid, process.env.webhooktoken);
@@ -36,7 +36,7 @@ client.on('ready', async () => {
 client.on('message', async message => {
   let prefix = config.prefix
   if (!message.content.startsWith(prefix)) return
-  const args = message.content.slice(prefix.length).trim().split(/ +/g)
+  const args = message.content.slice(prefix.length).trim().split(/ +/)
   const command = args.shift().toLowerCase();
   let cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command))
   if (!cmd) return
@@ -100,6 +100,8 @@ client.on('message', (message) => {
 			.setFooter('Developed by 월울프_')
     message.channel.send(embed)
       });
+  }else if (command === 'reactionrole'){
+    client.commands.get('reactionrole').excute(message, args, Discord, client)
   }else if(message.content == '!fy' || message.content == '!료') {
     message.channel.send(`fuck you bitch`)
     message.channel.send(':middle_finger:')
@@ -114,7 +116,7 @@ client.on('message', (message) => {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-mad-angry-you-wanna-fight-me-gif-17326578')
     
   }else if(message.content == '양아지는') {
-    message.channel.send('사랑이다\n```\n권희준님 요청\n```')
+    message.channel.send('사랑이다\n```\n퓌봉님 요청\n```')
     
   }else if(message.content == 'ㅂㄷㅂㄷ' || message.content == 'qeqe') {
     message.channel.send('https://tenor.com/view/%EC%96%91%EC%95%84%EC%A7%80-fist-angry-mad-gif-17326572')
