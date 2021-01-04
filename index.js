@@ -9,6 +9,7 @@ const DisTube = require('distube')
 const webhook = new Discord.WebhookClient(process.env.webhookid, process.env.webhooktoken);
 const prefix = '-'
 const config = require("./config.json")
+
 client.commands = new Collection();//Making client.commands as a Discord.js Collection
 client.queue = new Map()
 
@@ -17,7 +18,7 @@ client.distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true,
 client.aliases = new Discord.Collection()
 client.emotes = config.emoji;
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endswith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
 }
