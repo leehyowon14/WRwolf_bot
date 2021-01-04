@@ -10,7 +10,7 @@ module.exports = {
         const jemoji = '📩';
 
         let embed = new Discord.MessageEmbed()
-            .setcolor('#73c4fa')
+            .setColor('#186de6')
             .setTitle('이모지를 눌러 역할을 받으세요!')
             .setDescription('받고싶은 역할에 해당하는 이모지를 눌러 역할을 받으세요\n\n'
             + `${gemoji} 를 눌러 G-테크(구:호떡iT)의 새로운 소식을 받아보세요!\n`

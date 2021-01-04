@@ -17,6 +17,11 @@ client.distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true,
 client.aliases = new Discord.Collection()
 client.emotes = config.emoji;
 
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endswith('.js'));
+for (const file of commandFiles) {
+  const command = require(`./commands/${file}`);
+}
+
 fs.readdir("./commands/", (err, files) => {
   let jsFiles = files.filter(f => f.split(".").pop() === "js")
   if (jsFiles.length <= 0) return console.log("Could not find any commands!")
@@ -33,29 +38,9 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
-client.on('message', async message => {
-  let prefix = config.prefix
-  if (!message.content.startsWith(prefix)) return
+client.on('message', (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/)
   const command = args.shift().toLowerCase();
-  let cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command))
-  if (!cmd) return
-  try {
-      cmd.run(client, message, args)
-  }
-  catch (e) {
-      console.error(e)
-      message.reply("Error: " + e)
-  }
-  
-  if (command === 'reactionrole'){
-    client.commands.get('reactionrole').excute(message, args, Discord, client)
-  }
-
-})
-
-
-client.on('message', (message) => {
 
   if (message.content == "ping") {
     return message.reply("pong")
@@ -169,6 +154,8 @@ request(url, (error, response, body) => {
     message.channel.send(embed4)
   })
 
+  }else if (command === 'reactionrole'){
+    client.commands.get('reactionrole').excute(message, args, Discord, client)
   }else if(message.content == 'ㄱㅅㄱㅅㄱㅅㄱㅅ' || message.content == 'rtrtrtrt' || message.content == 'ㄳㄳㄳㄳ'){
     message.channel.send('https://media.discordapp.net/attachments/785910540526157864/793784533350219786/ezgif.com-gif-maker_3.gif')
   }else if(message.content == 'you know that' || message.content == 'you know it') {
