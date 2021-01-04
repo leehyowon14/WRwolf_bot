@@ -39,6 +39,8 @@ client.on('ready', async () => {
   client.user.setPresence({ activity: { name: '명령어:w_help' }, status: 'online'})
 });
 
+
+
 client.on('message', (message) => {
   const args = message.content.slice(prefix.length).trim().split(/ +/)
   const command = args.shift().toLowerCase();
@@ -156,7 +158,7 @@ request(url, (error, response, body) => {
   })
 
   }else if (command === 'reactionrole'){
-    client.commands.get('reactionrole').excute(message, args, Discord, client)
+    client.commands.get('reactionrole').execute(message, args, Discord, client)
   }else if(message.content == 'ㄱㅅㄱㅅㄱㅅㄱㅅ' || message.content == 'rtrtrtrt' || message.content == 'ㄳㄳㄳㄳ'){
     message.channel.send('https://media.discordapp.net/attachments/785910540526157864/793784533350219786/ezgif.com-gif-maker_3.gif')
   }else if(message.content == 'you know that' || message.content == 'you know it') {
